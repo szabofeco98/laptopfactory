@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.thesis.factory.database.entity;
 
 import lombok.Getter;
 import lombok.Setter;

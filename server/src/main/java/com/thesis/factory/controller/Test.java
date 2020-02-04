@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.thesis.factory.controller;
 
+import com.thesis.factory.database.entity.DbEnt;
+import com.thesis.factory.database.repository.DbDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
