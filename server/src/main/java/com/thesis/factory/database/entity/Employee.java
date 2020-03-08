@@ -12,10 +12,10 @@ import javax.persistence.Id;
 @Setter
 @ToString
 @Entity
-public class DbEnt {
-     @Id
-     @GeneratedValue
-     private Integer num;
-
-     private String name;
+public class Employee {
+        @Id
+        @GeneratedValue
+        private Long id;
+        private String username;
+        private String password;
 }
