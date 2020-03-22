@@ -1,0 +1,42 @@
+.login{
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+    border: 1px solid whitesmoke;
+    padding: 1em;
+    padding-top: 3em;
+    padding-bottom: 3em;
+    background-color: rgb(38, 38, 38);
+}
+
+
+.input,
+form>.p-dropdown,
+.p-col-12,
+.p-button.p-button-text-only {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.text{
+    width: 100%;
+}
+
+.pi{
+    color: white;
+}
+
+@media (min-width:980px) {
+    .login{
+        width: 50%;
+    }
+  
+    form>.p-dropdown,
+    .p-col-12,
+    .p-button.p-button-text-only {
+        width: 55%;
+    }
+}
+

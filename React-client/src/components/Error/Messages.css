@@ -1,0 +1,22 @@
+.error{
+   margin-bottom: 2em;
+   background-color: RGB(237, 82, 73);
+  padding: 10px;
+  color: darkred;
+  box-shadow: 3px 6px 7px red;
+}
+
+.header{
+    font-weight: bold;
+    font-size: large;
+}
+
+
+.sucess{
+    margin-bottom: 2em;
+    background-color:green;
+   padding: 10px;
+   color: lightgreen;
+   box-shadow: 3px 6px 7px lightgreen;
+}
+
