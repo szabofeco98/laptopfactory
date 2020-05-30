@@ -27,7 +27,6 @@ public class UserDetialService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
 
-        System.out.println("user detial service ");
         Employee user = employeeDAO.findByUsername(username);
         User realUser;
         List<GrantedAuthority> authorities;
@@ -36,16 +35,14 @@ public class UserDetialService implements UserDetailsService {
             authorities=buildUserAuthority(user.getRole());
             realUser=buildUserForAuthentication(user,authorities);
         }else {
-            System.out.println("not found");
             throw new UsernameNotFoundException("User "+ username + "not found");
         }
-
         return realUser;
     }
 
 
     private User buildUserForAuthentication(Employee user, List<GrantedAuthority> authorities) {
-        return new User(user.getUsername(), "{noop}"+user.getPassword(),
+        return new User(user.getUsername(), user.getPassword(),
                 true, true, true, true, authorities);
     }
 

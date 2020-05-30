@@ -1,9 +1,10 @@
 .error{
    margin-bottom: 2em;
-   background-color: RGB(237, 82, 73);
+   background-color: rgb(248, 183, 189);
   padding: 10px;
   color: darkred;
-  box-shadow: 3px 6px 7px red;
+  border: 1px solid black;
+  border-radius: 4px;
 }
 
 .header{

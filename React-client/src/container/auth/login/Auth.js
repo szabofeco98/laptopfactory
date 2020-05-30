@@ -8,81 +8,65 @@ import { connect } from 'react-redux';
 import * as action from '../../../store/actions/auth'
 import axios from 'axios';
 
+
+
 class Auth extends Component{
     state = {
-        email : "",
+        username : "",
         password: "",
-        touched:false,
-        valid:false
+        filled:false,
+        touched:false
     }
-
-  
-    constructor() {
-        super();
-        this.validator = new SimpleReactValidator({
-            messages:{
-                email: "That is not an valid email adress"
-            }
-        });
-    }
-
-   
-    test = () =>{
-        delete axios.defaults.headers.common['Authorization'];
-        
-        if(this.props.login)
-         
-        console.log(localStorage.getItem('token'));
-        axios.defaults.headers.common['authorization'] =  localStorage.getItem('token');
-        axios.get('http://localhost:9090/test').then(resp =>{
-            console.log(resp.data)
-        });
-    }
-
-    validationChecker = () => {
-        this.validator.message('email', this.state.email, 'required' )
-        this.validator.message('password', this.state.password, 'required' )
-    }
-  
     
+    componentDidUpdate(){
+        console.log(this.props.login);
+  
+        if(this.props.login  && this.props.login != 'Invalid username and password pair'){
+            this.props.history.push("/home");
+        }
+    }
+
     submitForm = (event) =>{
         event.preventDefault();
-
         this.setState({
             touched:true
         });
        
-       if(this.validator.allValid()){
-        this.props.onAuth(this.state.email,this.state.password);
-       
-       //    this.props.history.push("/home")
-         this.setState({
-             valid:true
-         });
-       };
+       if(this.state.username!=='' && this.state.password !=='' ){
+            this.props.onAuth(this.state.username,this.state.password);
+            
+            this.setState({
+                filled:true
+            });
+        }else{
+            this.setState({
+                filled:false
+            });
+        }
+   
     }
-    
+
     render(){
-       this.validationChecker();
-       let errors = null;
-       const errorMap=this.validator.getErrorMessages();
-      
-        errors = !this.state.touched ? null :
-        Object.keys(errorMap).map( error =>{
-            if(errorMap[error]!==null)
-            return <Error key={error} msg={errorMap[error]} style="error" header="Invalid"/> 
-        })
-        console.log(this.props.login);
-        if(this.props.login === 'username' ||this.props.login === 'password'){
-            errors.push(<Error key={this.props.login} msg={this.props.login} header="Invalid" style="error"/>)
+    
+       let error = null;
+       if(this.state.touched){
+            if(!this.state.filled)
+           error = <Error  msg="A mezők kitöltése kötelező" header="Hiba: " style="error"/>
+       }
+    
+        if(this.props.login === 'Invalid username and password pair'){
+            error=<Error  msg="Nem megfelelő felhasználónév és jelszó páros"
+             header="Hiba: " style="error"/>;
         }
        
      
         return(
+        
         <div className="login"> 
-          {errors }
+
+          {error}
            <hr/>
-           <h2>Bejelentkezes</h2>
+           <h2>Login</h2>
         <form onSubmit={event => this.submitForm(event)} >
         
               <div className="p-col-12 p-md-4 input">
@@ -90,10 +74,10 @@ class Auth extends Component{
                                 <span className="p-inputgroup-addon">
                                     <i className="pi pi-user"></i>
                                 </span>                                 
-                                <InputText value={this.state.email}
-                                placeholder="Felhasználónév"  
+                                <InputText value={this.state.username}
+                                placeholder="Username"  
                                 className="text"
-                                onChange={(e) => this.setState({ email: e.target.value})}
+                                onChange={(e) => this.setState({ username: e.target.value})}
                                 type="text"
                                 />
                             </div>
@@ -101,10 +85,10 @@ class Auth extends Component{
              <div className="p-col-12 p-md-4 input">
                             <div className="p-inputgroup">
                                 <span className="p-inputgroup-addon">
-                                    <i className="pi pi-lock"></i>
+                                    <i className="pi pi-lock"/>
                                 </span>
                                 <InputText value={this.state.password}
-                                placeholder="Jelszó" 
+                                placeholder="Password" 
                                 className="text" 
                                 onChange={(e) => this.setState({ password: e.target.value})}
                                 type="password"
@@ -112,9 +96,8 @@ class Auth extends Component{
                             </div>
               </div>
               
-              <Button label="Submit"/>
+              <Button label="Login"/>
         </form>
-        <Button onClick = {this.test}/>
         </div>
        
         );
@@ -139,3 +122,4 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(Auth);
+

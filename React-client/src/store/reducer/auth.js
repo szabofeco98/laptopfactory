@@ -12,6 +12,7 @@ const loginStart = ( state, action ) => {
     delete axios.defaults.headers.common['authorization'];
     return updateObject( state, { error: null, loading: true } );
 };
+
 const loginSuccess = ( state, action ) => {
     
     if(action.token != 'password' && action.token != 'username'){
@@ -20,6 +21,7 @@ const loginSuccess = ( state, action ) => {
     
     return updateObject( state, { error: null, loading: false , token : action.token} );
 };
+
 const loginFail = ( state, action ) => {
     return updateObject( state, { error: true, loading: false } );
 };

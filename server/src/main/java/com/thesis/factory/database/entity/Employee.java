@@ -20,14 +20,25 @@ public class Employee {
         @ManyToOne
         private Role role;
 
+        @Column(unique = true)
         private String username;
 
         private String password;
 
-        private int shitNum;
+        private Integer shitNum;
+
+        private String email;
+
+        private Integer identityNum;
+
+        @Column(name = "is_active")
+        private Boolean isActiveWorker;
 
         private Date bornDate;
 
         @ManyToMany(fetch = FetchType.EAGER)
         private List<WorkingHour> workingHours;
+
+        @OneToMany(mappedBy = "employee")
+        private List<Task> tasks;
 }

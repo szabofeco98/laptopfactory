@@ -1,12 +1,17 @@
 import React,{ Component } from "react";
+import Menu from "../../components/Navigation/UpMenu";
 
 
 class Layout extends Component{
+  
     render(){
+    
         return(
-        <div>
-            {this.props.children}
-        </div>);
+            <div>
+                <Menu/>
+                {this.props.children}
+            </div>
+         );
     }
     
 }

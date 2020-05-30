@@ -20,19 +20,30 @@ form>.p-dropdown,
     margin-bottom: 20px;
 }
 
-.text{
+input{
+    width: 100%;
+}
+.calendar{
     width: 100%;
 }
 
 .pi{
     color: white;
 }
-
+.registration{
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    border: 1px solid whitesmoke;
+    padding: 1em;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
 @media (min-width:980px) {
     .login{
         width: 50%;
     }
-  
+    
     form>.p-dropdown,
     .p-col-12,
     .p-button.p-button-text-only {

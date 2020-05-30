@@ -13,19 +13,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
-    UserDetialService userDetialService;
+    private UserDetialService userDetialService;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetialService);
+        auth.userDetailsService(userDetialService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -35,13 +37,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/option").permitAll()
                 .antMatchers("/auth").permitAll()
+                .antMatchers("/registration"
+                                        ,"/deleteEmp"
+                                        ,"/addTask"
+                                        ,"/getProducts"
+                                        ,"/addProduct"
+                                        ,"/deleteProduct"
+                                        ,"/getStorage").hasRole("leader")
+                .antMatchers("/getStorage").hasRole("storageKeeper")
                 .anyRequest().authenticated();
-
-
-
-        http.exceptionHandling().accessDeniedPage("/login");
 
         http.apply(new JwtFilterConfig(jwtTokenProvider));
     }

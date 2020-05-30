@@ -1,6 +1,7 @@
 package com.thesis.factory.config.security;
 
 import com.thesis.factory.database.entity.Role;
+import com.thesis.factory.service.domain.RoleDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -36,20 +37,17 @@ public class JwtTokenProvider implements Serializable {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, Role role) {
-
+    public String createToken(String username, RoleDTO role) {
         Claims claims = Jwts.claims().setSubject(username);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        claims.put("auth",   roles.stream().map(s -> new SimpleGrantedAuthority(s.getRole())).filter(Objects::nonNull).collect(Collectors.toList()));
+        claims.put("auth",  role.getRole());
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()//
-                .setClaims(claims)//
-                .setIssuedAt(now)//
-                .setExpiration(validity)//
-                .signWith(SignatureAlgorithm.HS256, secretKey)//
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
@@ -71,8 +69,7 @@ public class JwtTokenProvider implements Serializable {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new RuntimeException();
-            //CustomException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw  new OwnJwtException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
